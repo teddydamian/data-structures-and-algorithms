@@ -140,24 +140,15 @@ The inventory is formatted like this:
 This function should use forEach to populate your grocery list based on the store's inventory. If the item is available, add it to your list. Return the final list.
 ------------------------------------------------------------------------------------------------ */
 
-describe('Testing challenge 6', () => {
-  const inventory = [{ name: 'apples', available: true }, { name: 'pears', available: true }, { name: 'oranges', available: false }, { name: 'bananas', available: true }, { name: 'blueberries', available: false }];
-
-  test('It should only add the available items to the list', () => {
-    expect(createList(inventory)).toStrictEqual(['apples', 'pears', 'bananas']);
-    expect(createList(inventory).length).toStrictEqual(3);
-  });
-});
-
-
 const createList = (availableItems) => {
-  availableItems.forEach((value, index, availableItems) => {
+  const groceryList = [];
+  availableItems.forEach(value => {
 
     if (value.available === true){
-      availableItems.push(value.name);
+      groceryList.push(value.name);
     }
   })
-  return availableItems;
+  return groceryList;
 }
 
 /* ------------------------------------------------------------------------------------------------
@@ -175,7 +166,18 @@ Return the resulting output array.
 ------------------------------------------------------------------------------------------------ */
 
 const fizzbuzz = (arr) => {
-  // Solution code here...
+  let output = [];
+
+  arr.forEach(value =>{
+    if(value%3 === 0&&value% 5=== 0){
+      output.push('Fizz Buzz');
+    }else if(value%5 === 0){
+      output.push('Buzz');
+    }else if(value%3 === 0){
+      output.push('Fizz');
+    }else(output.push(value))
+  });
+  return output;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -232,7 +234,7 @@ describe('Testing challenge 6', () => {
   });
 });
 
-xdescribe('Testing challenge 7', () => {
+describe('Testing challenge 7', () => {
   const inputs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
   test('It should print out messages or numbers', () => {
