@@ -27,19 +27,24 @@ Return an array containing all the matches.
 // describe('Testing challenge 2', () => {
 //     test('It should only return words that begin with a capital letter', () => {
 //       const capitalResult = isCapitalized('We only want to Return the Words that begin With a capital Letter');
-  
+
 //       expect(capitalResult).toStrictEqual([ 'We', 'Return', 'Words', 'With', 'Letter' ]);
 //       expect(capitalResult.length).toStrictEqual(5);
-  
+
 //       expect(isCapitalized('Given by our hand in the meadow that is called Runnymede, between Windsor and Staines, on the fifteenth day of June in the seventeenth year of our reign (i.e. 1215: the new regnal year began on 28 May).')).toStrictEqual(['Given', 'Runnymede', 'Windsor', 'Staines', 'June', 'May']);
-  
+
 //       expect(isCapitalized('these words are all failures')).toStrictEqual([]);
 //     });
 //   });
 
 const isCapitalized = (str) => {
-  let regex = /[A-z]*/;
-
+  let regex = /\b[A-Z][a-z]*\b/g
+  let result = str.match(regex);
+  if(result){
+    return result
+  } else{
+    return [];
+  }
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -49,8 +54,14 @@ Write a function named citiesAtoJ that takes in an array of city names and uses 
 ------------------------------------------------------------------------------------------------ */
 
 const citiesAtoJ = (arr) => {
-  let regex = /[A-J]*/;
-  return arr.match(regex);
+  let regex = /^[A-J]*\w+/gmi;
+  let newArr = [];
+  arr.forEach(city => {
+  if(regex.test(city)){
+    newArr.push(city);
+    }
+  });
+  return newArr;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -66,7 +77,8 @@ Do not use the vertical bar (pipe) in your pattern.
 ------------------------------------------------------------------------------------------------ */
 
 const matchMonth = (input) => {
-  // Solution code here...
+  let regex = /\bOct|oct(ober)?\b/gm
+  return regex.test(input);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -78,9 +90,9 @@ For example, if given the string "Hello, and have a wonderful day!", the word "H
 
 The expected output of "Hello, and have a wonderful day!" is ["and ", "have ", "a ", "wonderful "].
 ------------------------------------------------------------------------------------------------ */
-
 const noPunctuation = str => {
-  // Solution code here...
+  let regex = /\w+\s/gmi
+  return str.match(regex);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -96,7 +108,8 @@ For example, 'Welcome to Code 301!' will return 'W_lc_m_ t_ C_d_ 301!'.
 ------------------------------------------------------------------------------------------------ */
 
 let hangman = (str) => {
-  // Solution code here...
+  let regex = /[aeiou]/gmi
+  return str.replace(regex, '_');
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -169,7 +182,7 @@ describe('Testing challenge 3', () => {
   });
 });
 
-xdescribe('Testing challenge 4', () => {
+describe('Testing challenge 4', () => {
   test('It should match any of the acceptable inputs', () => {
     expect(matchMonth('Oct')).toBeTruthy();
     expect(matchMonth('oct')).toBeTruthy();
@@ -187,7 +200,7 @@ xdescribe('Testing challenge 4', () => {
   });
 });
 
-xdescribe('Testing challenge 5', () => {
+describe('Testing challenge 5', () => {
   const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras lacinia vel massa sed egestas. Nunc faucibus iaculis elit, a scelerisque enim condimentum sed. Aenean ac scelerisque sem, et pharetra diam.';
 
   test('It should only return words that are immediately followed by a space', () => {
@@ -201,7 +214,7 @@ xdescribe('Testing challenge 5', () => {
   });
 });
 
-xdescribe('Testing challenge 6', () => {
+describe('Testing challenge 6', () => {
   let startString = 'This is a regex challenge. We are trying to create a hangman phrase where all of the vowels are missing!';
 
   test('It should remove the vowels from the hangman string and replace them with underscores', () => {
