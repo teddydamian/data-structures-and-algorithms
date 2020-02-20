@@ -87,11 +87,17 @@ hasChildrenValues(characters, 'Sansa') will return false
 ------------------------------------------------------------------------------------------------ */
 
 const hasChildrenValues = (arr, character) => {
-  character = Object.values(character[2]);
-  if(character){
-    return true;
-  }
-}
+  let flag = false;
+  arr.forEach(chars => {
+    if(chars.name === character) {
+      //if there is more than 0 children
+      if (chars.children.length > 0) {
+        flag = true;
+      }
+    }
+  });
+  return flag;
+};
 
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 4
@@ -102,7 +108,16 @@ The input and output of this function are the same as the input and output from 
 ------------------------------------------------------------------------------------------------ */
 
 const hasChildrenEntries = (arr, character) => {
-  // Solution code here...
+  let flag = false;
+  arr.forEach(char => {
+    let characterEntries = Object.entries(char);
+    if(characterEntries[0][1] === character) {
+      if (characterEntries[2][1].length > 0) {
+        flag = true;
+      }
+    }
+  });
+  return flag;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -112,8 +127,19 @@ Write a function named totalCharacters that takes in an array and returns the nu
 ------------------------------------------------------------------------------------------------ */
 
 const totalCharacters = (arr) => {
-  // Solution code here...
+  const allChars= [];
+  arr.forEach(character => {
+    allChars.push(character.name);
+    character.children.forEach(children => {
+      allChars.push(children);
+    });
+    if(character.spouse){
+      allChars.push(character.spouse);
+    }else;
+  });
+  return allChars.length;
 };
+
 
 /* ------------------------------------------------------------------------------------------------
 CHALLENGE 6 - Stretch Goal
@@ -199,7 +225,7 @@ describe('Testing challenge 4', () => {
   });
 });
 
-xdescribe('Testing challenge 5', () => {
+describe('Testing challenge 5', () => {
   test('It should return the number of characters in the array', () => {
     expect(totalCharacters(characters)).toStrictEqual(26);
   });
