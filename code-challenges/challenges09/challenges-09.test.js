@@ -9,9 +9,9 @@ Note: You may not use the array's built-in length property.
 ------------------------------------------------------------------------------------------------ */
 
 const countNumberOfElements = (arr) => {
-  arr = arr.reduce((accumulator, val, idx) => {
-    return arr.length;
-  }, 0);
+  return arr.reduce((acc) => {
+    return acc + 1;
+  },0);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -71,7 +71,10 @@ let starWarsData = [{
 }];
 
 const returnNames = (arr) => {
-  // Solution code here...
+  return arr.reduce((acc, val) => {
+    acc.push(val.name)
+    return acc
+  }, []);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -82,8 +85,11 @@ Write a function named reversedString that takes in a string and returns a strin
 Note: You must use reduce for this challenge. You may not use the built-in .reverse() string method.
 ------------------------------------------------------------------------------------------------ */
 
+
 const reversedString = (str) => {
-  // Solution code here...
+  return str.split('').reduce((acc, val) =>{
+    return val + acc;
+  }, '');
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -136,7 +142,12 @@ const characters = [
 ];
 
 const countNumberOfChildren = (arr) => {
-  // Solution code here...
+  return arr.reduce((acc, val) =>{
+    if(val.hasOwnProperty('children')){
+      return acc + val.children.length;
+    }
+    return acc;
+  }, 0);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -148,7 +159,12 @@ Hint: The accumulator should begin as { count: 0, sum: 0 }
 ------------------------------------------------------------------------------------------------ */
 
 const calculateAverage = (arr) => {
-  // Solution code here...
+  let aveVal= arr.reduce((acc, val) => {
+    acc.count++;
+    acc.sum += val;
+    return acc;
+  },{count: 0, sum: 0});
+  return aveVal.sum / aveVal.count;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -169,7 +185,13 @@ const isPrime = (value) => {
 };
 
 const countPrimeNumbers = (arr) => {
-  // Solution code here...
+  return arr.reduce((acc, val) => {
+    if(isPrime(val)) {
+      return acc + 1;
+    } else {
+      return acc;
+    }
+  },0);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -245,32 +267,32 @@ describe('Testing challenge 1', () => {
   });
 });
 
-xdescribe('Testing challenge 2', () => {
+describe('Testing challenge 2', () => {
   test('It should return an array continaing the names of the characters', () => {
     expect(returnNames(starWarsData)).toStrictEqual([ 'Luke Skywalker', 'C-3PO', 'R2-D2', 'Darth Vader', 'Leia Organa' ]);
     expect(returnNames(starWarsData).length).toStrictEqual(5);
   });
 });
 
-xdescribe('Testing challenge 3', () => {
+describe('Testing challenge 3', () => {
   test('It should return the string with the characters in reverse order', () => {
     expect(reversedString('Code 301')).toStrictEqual('103 edoC');
   });
 });
 
-xdescribe('Testing challenge 4', () => {
+describe('Testing challenge 4', () => {
   test('It should return the total number of children', () => {
     expect(countNumberOfChildren(characters)).toStrictEqual(14);
   });
 });
 
-xdescribe('Testing challenge 5', () => {
+describe('Testing challenge 5', () => {
   test('It should return the average of the numbers in the array', () => {
     expect(calculateAverage([18, 290, 37, 4, 55, 16, 7, 85 ])).toStrictEqual(64);
   });
 });
 
-xdescribe('Testing challenge 6', () => {
+describe('Testing challenge 6', () => {
   test('It should return a count of the prime numbers in the array', () => {
     expect(countPrimeNumbers([1, 2, 13, 64, 45, 56, 17, 8])).toStrictEqual(3);
   });
