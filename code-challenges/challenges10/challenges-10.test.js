@@ -12,18 +12,11 @@ For example, count(5, [[1, 3, 5, 7, 9], [5, 5, 5], [1, 2, 3]]) returns 4.
 ------------------------------------------------------------------------------------------------ */
 
 const count = (target, input) => {
-  input.reduce( (acc, val, idx) => {
-    for(let i=0; i<input.length; i++){
-      for(let x = 0; x < input[i].length; x++){
-        if (target){
-          let z = 0;
-          z = z + 1;
-          return z;
-        }else;
-      }
-    }
-  }, 0)
-  return acc;
+  return input.reduce((acc1, val1) =>{
+    return val1.reduce((acc2, val2)=>{
+      return val2 === target ? acc2 + 1 : acc2;
+    }, acc1)
+  }, 0);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -37,12 +30,11 @@ For example, [[1, 2, 3, 4, 5], [6, 7, 2, 4, 5, 7], [9, 2, 3, 6,]] returns 66.
 ------------------------------------------------------------------------------------------------ */
 
 const totalSum = (input) => {
-  input.reduce( (acc,val,idx) =>{
-    return acc.reduce((acc1,val1,idx1) =>{
-      acc1 = acc1+val1;
-    }, 0)
-    acc 
-  },0)
+  return input.reduce((acc1, val1) => {
+    return val1.reduce((acc2, val2) => {
+      return acc2 + val2;
+    }, acc1);
+  }, 0);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -58,7 +50,12 @@ For example, [ [0,2,5,4], [2,4,10], [] ] should return [ [1, 32], [1024], [] ].
 ------------------------------------------------------------------------------------------------ */
 
 const divisibleByFiveTwoToThePower = (input) => {
-  // Solution code here...
+  const newArr = [];
+  input.forEach(array => {
+    const newArray1 = array.filter(n => (typeof n === 'number' && n%5===0)).map(n => Math.pow(2, n));
+    newArr.push(newArray1);
+  });
+  return newArr;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -124,7 +121,7 @@ let starWarsData = [{
 }];
 
 let findMaleAndFemale = (data) => {
-  // Solution code here...
+  return data.filter((char) => (char.gender === 'male' || char.gender === 'female')).map(char => char.name).join(' and ');
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -134,7 +131,13 @@ Write a function named findShortest that, given the Star Wars data from Challeng
 ------------------------------------------------------------------------------------------------ */
 
 let findShortest = (data) => {
-  // Solution code here...
+  const shorty = data.reduce((acc, val) => {
+    if(parseInt(val.height) < acc) {
+      acc = val.height;
+    }
+    return acc;
+  },999);
+  return data.filter(char => char.height === shorty)[0].name;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -160,7 +163,7 @@ describe('Testing challenge 1', () => {
   });
 });
 
-xdescribe('Testing challenge 2', () => {
+describe('Testing challenge 2', () => {
   test('It should add all the numbers in the arrays', () => {
     const nums = [[1, 2, 3, 4, 5], [6, 7, 2, 4, 5, 7], [9, 2, 3, 6,]];
 
@@ -168,7 +171,7 @@ xdescribe('Testing challenge 2', () => {
   });
 });
 
-xdescribe('Testing challenge 3', () => {
+describe('Testing challenge 3', () => {
   test('It should return numbers divisible by five, then raise two to the power of the resulting numbers', () => {
     expect(divisibleByFiveTwoToThePower([[10, 20, 5, 4], [5, 6, 7, 9], [1, 10, 3]])).toStrictEqual([[1024, 1048576, 32], [32], [1024]]);
   });
@@ -182,14 +185,14 @@ xdescribe('Testing challenge 3', () => {
   });
 });
 
-xdescribe('Testing challenge 4', () => {
+describe('Testing challenge 4', () => {
   test('It should return only characters that are male or female', () => {
     expect(findMaleAndFemale(starWarsData)).toStrictEqual('Luke Skywalker and Darth Vader and Leia Organa');
     expect(findMaleAndFemale([{ name: 'person', gender: 'female' }, { gender: 'lol' }, { name: 'persontwo', gender: 'male' }])).toStrictEqual('person and persontwo');
   });
 });
 
-xdescribe('Testing challenge 5', () => {
+describe('Testing challenge 5', () => {
   test('It should return the name of the shortest character', () => {
     expect(findShortest(starWarsData)).toStrictEqual('R2-D2');
   });
